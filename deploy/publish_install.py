@@ -37,6 +37,13 @@ def main() -> None:
     # The Flutter app still runs with original /pg-robotics-pwa/ base href.
     # Use an inline branded loading state, avoiding a white rectangle as engine starts.
     splash = """
+<meta name="robots" content="noindex, nofollow, noarchive">
+<script>
+  // In normal browsers, show the installation gate rather than the Flutter app.
+  if (!window.matchMedia('(display-mode: standalone)').matches && navigator.standalone !== true) {
+    location.replace('./');
+  }
+</script>
 <style>
   #pg-flutter-splash{position:fixed;inset:0;z-index:999999;display:grid;place-content:center;gap:16px;text-align:center;background:#0a0b0d;color:#fff;font:800 18px -apple-system,BlinkMacSystemFont,Arial,sans-serif;letter-spacing:2px}
   #pg-flutter-splash img{display:block;width:73px;height:73px;margin:auto;border-radius:18px}
