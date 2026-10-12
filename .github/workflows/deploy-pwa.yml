@@ -1,0 +1,62 @@
+name: Build and publish PG Robotics Flutter PWA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'PG_Robotics_v0.6_GitHub_Pages_Ready.zip'
+      - '.github/workflows/deploy-pwa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract Flutter application
+        shell: bash
+        run: |
+          test -f PG_Robotics_v0.6_GitHub_Pages_Ready.zip || { echo "Upload PG_Robotics_v0.6_GitHub_Pages_Ready.zip to the repository root"; exit 1; }
+          unzip -oq PG_Robotics_v0.6_GitHub_Pages_Ready.zip
+          test -f pubspec.yaml
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Generate Flutter web scaffolding
+        run: flutter create --platforms=web --org com.example --project-name pg_robotics_app --no-pub .
+      - name: Apply PWA branding
+        run: python3 tools/configure_web.py
+      - name: Get packages
+        run: flutter pub get
+      - name: Compile Flutter PWA
+        run: flutter build web --release --base-href "/pg-robotics-pwa/"
+      - name: Configure offline caching
+        run: |
+          python3 tools/postbuild_pwa.py
+          touch build/web/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: build/web
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
