@@ -10,6 +10,7 @@ on:
       - 'release_v09/**'
       - 'release_v010/**'
       - 'release_v011/**'
+      - 'release_v012/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
 
@@ -93,6 +94,23 @@ jobs:
           grep -q '_fromViewport' lib/mission_game.dart
           grep -q '_restoreDemoEditor' lib/main.dart
           grep -q 'version: 0.11.0' pubspec.yaml
+      - name: Apply v0.12 shared newsroom and Web Push
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 -d release_v012/overlay.b64 | tar -xJ -C .
+          grep -q 'PGBackend' lib/news_sheet.dart
+          grep -q 'pgPushSubscribe' deploy/pg_push_client.js
+          grep -q 'version: 0.12.0' pubspec.yaml
+      - name: Verify public PG news service
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --max-time 35 -sS \
+            -X POST -H 'Content-Type: application/json' \
+            -d '{"action":"config"}' \
+            'https://kehjximjrdgdqshauyuc.supabase.co/functions/v1/pg-robotics-api' \
+            | python3 -c 'import json,sys; j=json.load(sys.stdin); assert len(j["vapidPublic"])>80; print("Web Push VAPID configured")'
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
