@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0a0b0d">
+  <meta name="description" content="PG Robotics — продукція, новини та інтерактивна місія. Встановіть застосунок на свій телефон.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="PG Robotics">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <title>PG Robotics — встановлення застосунку</title>
+  <script>
+    // Old installed shortcuts may still point at /. Never show the installer inside the installed app.
+    if (matchMedia('(display-mode: standalone)').matches || navigator.standalone === true) {
+      location.replace('app.html');
+    }
+  </script>
+  <style>
+    :root{color-scheme:dark;--bg:#0a0b0d;--card:#191b1d;--line:#35383b;--yellow:#ffe019;--white:#f5f5f5;--muted:#a8abad}
+    *{box-sizing:border-box}
+    html{background:var(--bg);-webkit-text-size-adjust:100%}
+    body{margin:0;min-height:100svh;background:radial-gradient(circle at 80% 8%,#2b2b22 0,transparent 41%),var(--bg);font:16px/1.48 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--white)}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;background:repeating-linear-gradient(125deg,transparent 0 62px,#a6a6a6 63px,transparent 64px 128px);mask-image:linear-gradient(to bottom,#000,transparent 65%)}
+    .shell{position:relative;width:min(100%,540px);margin:auto;padding:calc(28px + env(safe-area-inset-top)) 24px calc(30px + env(safe-area-inset-bottom));min-height:100svh;display:flex;flex-direction:column}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;gap:13px;align-items:center}
+    .brand-icon{width:57px;height:57px;border-radius:17px;box-shadow:0 4px 32px #ffe01915}
+    .brand-name{font-size:18px;font-weight:840;letter-spacing:2px}
+    .brand-sub{font-size:10px;color:#999;letter-spacing:2.5px;margin-top:2px}
+    .version{background:#212321;color:#b8baab;padding:7px 10px;border-radius:30px;border:1px solid #3b3d35;font-size:11px;white-space:nowrap}
+    main{padding-top:clamp(40px,8svh,88px)}
+    .eyebrow{display:flex;gap:10px;align-items:center;font-size:12px;letter-spacing:3px;font-weight:800;color:var(--yellow)}
+    .eyebrow:before{content:"";width:30px;height:3px;background:var(--yellow)}
+    h1{font-size:clamp(36px,9vw,52px);font-weight:850;letter-spacing:-1.8px;line-height:1.03;margin:18px 0}
+    h1 span{color:var(--yellow)}
+    .lead{max-width:400px;color:#bcbfc2;font-size:17px;line-height:1.55;margin:18px 0 30px}
+    .features{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:34px}
+    .feature{border:1px solid #343638;border-radius:99px;color:#c7c8c9;font-size:12px;padding:7px 11px;background:#17191bd6}
+    .feature b{color:var(--yellow)}
+    .actions{display:grid;gap:12px}
+    button,a.button{display:flex;align-items:center;justify-content:center;gap:11px;min-height:58px;padding:13px 18px;width:100%;font-weight:800;font-size:16px;text-align:center;text-decoration:none;border-radius:17px;cursor:pointer;touch-action:manipulation}
+    button.primary{border:0;background:var(--yellow);color:#080808;box-shadow:0 12px 26px #ffe01925}
+    button.primary:active{transform:scale(.985)}
+    a.button{color:#f7f7f7;border:1px solid #44484a;background:#1a1c1e}
+    svg{display:block;flex:none}
+    .card{border-radius:21px;border:1px solid #36393b;background:#181a1ce8;padding:20px;margin:24px 0 0}
+    .card-header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .card h2{font-size:18px;margin:0;line-height:1.2}
+    .pill{font-size:11px;color:#151515;background:var(--yellow);border-radius:100px;padding:4px 8px;font-weight:800}
+    .steps{display:grid;gap:16px;margin:19px 0 0;padding:0;list-style:none}
+    .steps li{display:flex;gap:14px;align-items:flex-start;color:#d4d6d6;font-size:14px}
+    .steps .num{border:1px solid #595c56;color:var(--yellow);font-weight:800;border-radius:11px;min-width:30px;height:30px;display:grid;place-items:center}
+    .steps strong{display:block;color:white;font-size:15px;margin-bottom:1px}
+    .steps .txt{flex:1}
+    .steps code{color:var(--yellow);font:inherit;font-weight:700}
+    .hint{margin-top:17px;color:#a8abad;font-size:12px}
+    .notice{font-size:13px;color:#d0d0bd;border-left:3px solid var(--yellow);padding:2px 0 2px 13px;margin:19px 0 0}
+    .foot{margin-top:auto;padding-top:36px;font-size:12px;color:#777b7e;text-align:center}
+    .foot strong{color:#abb0b2}
+    [hidden]{display:none!important}
+    @media (prefers-reduced-motion:no-preference){.card{animation:rise .25s ease-out}@keyframes rise{from{opacity:.6;transform:translateY(7px)}to{opacity:1;transform:none}}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top">
+      <div class="brand">
+        <img class="brand-icon" src="icons/Icon-192.png" width="57" height="57" alt="PG Robotics">
+        <div><div class="brand-name">PG ROBOTICS</div><div class="brand-sub">MOBILE EXPERIENCE</div></div>
+      </div>
+      <div class="version">PWA · v0.7</div>
+    </header>
+    <main>
+      <div class="eyebrow">ВІТАЄМО У PG ROBOTICS</div>
+      <h1>Більше ніж<br><span>застосунок.</span></h1>
+      <p class="lead">Продукція, новини та інтерактивна місія — тепер на вашому телефоні. Встановіть PG Robotics на головний екран.</p>
+      <div class="features">
+        <span class="feature"><b>✓</b> Швидкий доступ</span>
+        <span class="feature"><b>✓</b> Без App Store</span>
+        <span class="feature"><b>✓</b> Без реєстрації</span>
+      </div>
+      <div class="actions">
+        <button id="install" class="primary" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></svg>
+          <span id="install-label">Встановити застосунок</span>
+        </button>
+        <a class="button" href="app.html" id="open-app">
+          Відкрити без встановлення
+          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </a>
+      </div>
+      <section class="card" id="guide" hidden aria-live="polite">
+        <div class="card-header"><h2 id="guide-heading">Як додати на головний екран</h2><span class="pill" id="guide-pill">3 КРОКИ</span></div>
+        <ol class="steps" id="steps"></ol>
+        <p class="notice" id="guide-note"></p>
+      </section>
+    </main>
+    <footer class="foot">PG ROBOTICS · <strong>ВСТАНОВЛЕННЯ БЕЗКОШТОВНЕ</strong></footer>
+  </div>
+  <script>
+  (function () {
+    'use strict';
+    var btn = document.getElementById('install');
+    var label = document.getElementById('install-label');
+    var guide = document.getElementById('guide');
+    var steps = document.getElementById('steps');
+    var heading = document.getElementById('guide-heading');
+    var note = document.getElementById('guide-note');
+    var pill = document.getElementById('guide-pill');
+    var ua = navigator.userAgent || '';
+    var ios = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var android = /Android/i.test(ua);
+    var installed = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    var installPrompt = null;
+    function step(title, detail) {
+      var li = document.createElement('li');
+      var num = document.createElement('span');
+      num.className = 'num';
+      num.textContent = String(steps.children.length + 1);
+      var content = document.createElement('span');
+      content.className = 'txt';
+      var strong = document.createElement('strong');
+      strong.textContent = title;
+      content.appendChild(strong);
+      content.appendChild(document.createTextNode(detail));
+      li.appendChild(num); li.appendChild(content); steps.appendChild(li);
+    }
+    function renderGuide() {
+      steps.textContent = '';
+      guide.hidden = false;
+      if (ios) {
+        heading.textContent = 'Додайте на екран iPhone';
+        pill.textContent = '3 КРОКИ';
+        step('Відкрийте у Safari', 'Якщо сторінка відкрита у месенджері — виберіть «Відкрити в Safari».');
+        step('Натисніть «Поділитися»', 'Кнопка із квадратом і стрілкою вгору. Якщо її не видно, відкрийте меню «…».');
+        step('«На Початковий екран» → «Додати»', 'Знайдіть пункт у меню, підтвердьте додавання. Іконка з’явиться на iPhone.');
+        note.textContent = 'Важливо: iOS не дозволяє сайтам встановлювати PWA автоматично. Після додавання застосунок запускається з іконки без браузерної панелі.';
+      } else if (android) {
+        heading.textContent = 'Встановлення на Android';
+        pill.textContent = '2 КРОКИ';
+        step('Відкрийте у Chrome', 'Якщо ви у месенджері, відкрийте посилання у Chrome.');
+        step('Меню «⋮» → «Встановити застосунок»', 'Іноді пункт називається «Додати на головний екран». Підтвердьте встановлення.');
+        note.textContent = 'Якщо браузер підтримує пряму установку, системне вікно відкриється після натискання жовтої кнопки.';
+      } else {
+        heading.textContent = 'Встановлення на пристрій';
+        pill.textContent = 'ПІДКАЗКА';
+        step('Відкрийте меню браузера', 'Знайдіть «Встановити PG Robotics» або «Додати на головний екран».');
+        step('Підтвердьте', 'Програма буде доступна окремо від звичайних вкладок браузера.');
+        note.textContent = 'Спосіб встановлення залежить від браузера та операційної системи.';
+      }
+      guide.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+    if (ios) {
+      label.textContent = 'Додати на Початковий екран';
+    }
+    window.addEventListener('beforeinstallprompt', function (event) {
+      event.preventDefault();
+      installPrompt = event;
+      label.textContent = 'Встановити застосунок';
+    });
+    window.addEventListener('appinstalled', function () {
+      installPrompt = null;
+      label.textContent = 'Застосунок встановлено';
+      btn.disabled = true;
+      btn.style.opacity = '.65';
+    });
+    btn.addEventListener('click', async function () {
+      if (installPrompt) {
+        var current = installPrompt;
+        installPrompt = null;
+        try {
+          await current.prompt();
+          await current.userChoice;
+        } catch (_) {
+          renderGuide();
+        }
+      } else {
+        renderGuide();
+      }
+    });
+    if (installed) {
+      location.replace('app.html');
+      return;
+    }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('pg-pwa-sw.js').catch(function () {});
+    }
+  })();
+  </script>
+</body>
+</html>
