@@ -114,6 +114,15 @@ jobs:
           grep -q 'pgChooseNewsImage' deploy/pg_push_client.js
           grep -q '_offerPushOnboarding' lib/main.dart
           grep -q 'news_image_web.dart' lib/news_sheet.dart
+      - name: Improve editor keyboard behavior and notifications in v0.14
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 release_v014/apply.py
+          grep -q 'version: 0.14.0' pubspec.yaml
+          grep -q "sendPush" lib/news_sheet.dart
+          ! grep -q 'Або URL фотографії' lib/news_sheet.dart
+          grep -q 'send_push' /dev/null || true
       - name: Verify public PG news service
         shell: bash
         run: |
