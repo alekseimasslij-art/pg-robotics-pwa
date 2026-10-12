@@ -45,6 +45,7 @@ jobs:
             git apply "$patch"
           done
           cp /tmp/pg_v09/news_sheet.dart lib/news_sheet.dart
+          sed -i 's/showTimePicker(context: context,time:/showTimePicker(context: context,initialTime:/' lib/news_sheet.dart
           cp /tmp/pg_v09/editor_demo.dart lib/editor_demo.dart
           mkdir -p assets/branding
           cp /tmp/pg_v09/pg_wordmark.png assets/branding/pg_wordmark.png
