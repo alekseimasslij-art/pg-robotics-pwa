@@ -1,4 +1,4 @@
-name: Build and publish PG Robotics Flutter PWA
+name: Publish mobile demo
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
     paths:
       - 'PG_Robotics_v0.6_GitHub_Pages_Ready.zip'
       - 'deploy/**'
+      - 'release_v08/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
 
@@ -27,6 +28,11 @@ jobs:
           test -f PG_Robotics_v0.6_GitHub_Pages_Ready.zip || { echo "Upload PG_Robotics_v0.6_GitHub_Pages_Ready.zip to the repository root"; exit 1; }
           unzip -oq PG_Robotics_v0.6_GitHub_Pages_Ready.zip
           test -f pubspec.yaml
+      - name: Apply updated Flutter screens and demo illustrations
+        run: |
+          test -f release_v08/overlay.zip
+          unzip -oq release_v08/overlay.zip
+          test -f assets/images/luckystrike.jpg
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -38,12 +44,13 @@ jobs:
         run: python3 tools/configure_web.py
       - name: Get packages
         run: flutter pub get
-      - name: Compile Flutter PWA
+      - name: Compile mobile client
         run: flutter build web --release --base-href "/pg-robotics-pwa/"
       - name: Configure offline caching
         run: |
           python3 tools/postbuild_pwa.py
           python3 deploy/publish_install.py
+          printf 'User-agent: *\nDisallow: /\n' > build/web/robots.txt
           touch build/web/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
