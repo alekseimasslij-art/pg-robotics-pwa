@@ -12,6 +12,7 @@ on:
       - 'release_v011/**'
       - 'release_v012/**'
       - 'release_v013/**'
+      - 'release_v014/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
 
@@ -139,6 +140,7 @@ jobs:
         run: |
           python3 tools/postbuild_pwa.py
           python3 deploy/publish_install.py
+          python3 release_v014/notification_format_fix.py
           test -f build/web/icons/Icon-192-v013.png
           test -f build/web/app.html
           test -f build/web/pg_push_client.js
