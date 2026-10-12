@@ -11,6 +11,7 @@ on:
       - 'release_v010/**'
       - 'release_v011/**'
       - 'release_v012/**'
+      - 'release_v013/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
 
@@ -102,6 +103,16 @@ jobs:
           grep -q 'PGBackend' lib/news_sheet.dart
           grep -q 'pgPushSubscribe' deploy/pg_push_client.js
           grep -q 'version: 0.12.0' pubspec.yaml
+      - name: Apply v0.13 brand, photo upload and push onboarding fixes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f release_v013/overlay.b64
+          base64 -d release_v013/overlay.b64 | tar -xJ -C .
+          grep -q 'version: 0.13.0' pubspec.yaml
+          grep -q 'pgChooseNewsImage' deploy/pg_push_client.js
+          grep -q '_offerPushOnboarding' lib/main.dart
+          grep -q 'news_image_web.dart' lib/news_sheet.dart
       - name: Verify public PG news service
         shell: bash
         run: |
@@ -128,6 +139,9 @@ jobs:
         run: |
           python3 tools/postbuild_pwa.py
           python3 deploy/publish_install.py
+          test -f build/web/icons/Icon-192-v013.png
+          test -f build/web/app.html
+          test -f build/web/pg_push_client.js
           printf 'User-agent: *\nDisallow: /\n' > build/web/robots.txt
           touch build/web/.nojekyll
       - uses: actions/configure-pages@v5
