@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'PG_Robotics_v0.6_GitHub_Pages_Ready.zip'
+      - 'deploy/**'
+      - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
 
 permissions:
@@ -41,6 +43,7 @@ jobs:
       - name: Configure offline caching
         run: |
           python3 tools/postbuild_pwa.py
+          python3 deploy/publish_install.py
           touch build/web/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
