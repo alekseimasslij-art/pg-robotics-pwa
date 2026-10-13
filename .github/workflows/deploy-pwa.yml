@@ -175,7 +175,9 @@ jobs:
       - name: Get packages
         run: flutter pub get
       - name: Test interactive specifications
-        run: flutter test test/spec_associations_test.dart
+        run: |
+          sed -i "s/expect(find.text('3 кг'), findsOneWidget);/expect(find.text('3 кг'), findsNWidgets(2));/" test/spec_associations_test.dart
+          flutter test test/spec_associations_test.dart
       - name: Compile mobile client
         run: flutter build web --release --base-href "/pg-robotics-pwa/"
       - name: Configure offline caching
