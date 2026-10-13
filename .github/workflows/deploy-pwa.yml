@@ -14,6 +14,7 @@ on:
       - 'release_v013/**'
       - 'release_v014/**'
       - 'release_v015/**'
+      - 'release_v016/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
 
@@ -135,6 +136,15 @@ jobs:
           grep -q 'assets/images/ls2_day_digital/' pubspec.yaml
           grep -q 'class Spin360Viewer' lib/main.dart
           grep -q 'LS2-1 Day Digital' lib/main.dart
+      - name: Apply v0.16 instant spin and interactive catalog
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 -d release_v016/overlay.b64 | tar -xJ -C .
+          grep -q 'version: 0.16.0' pubspec.yaml
+          grep -q 'Lucky Strike 2 — Day Digital' lib/main.dart
+          grep -q 'class AnimatedDualSpecCard' lib/product_specs.dart
+          ! grep -q 'Демонстраційний перегляд моделі Day Digital' lib/main.dart
       - name: Verify public PG news service
         shell: bash
         run: |
