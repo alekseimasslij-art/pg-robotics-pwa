@@ -13,6 +13,7 @@ on:
       - 'release_v012/**'
       - 'release_v013/**'
       - 'release_v014/**'
+      - 'release_v015/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
 
@@ -123,6 +124,17 @@ jobs:
           grep -q "sendPush" lib/news_sheet.dart
           ! grep -q 'Або URL фотографії' lib/news_sheet.dart
           grep -q 'send_push' /dev/null || true
+      - name: Apply v0.15 product catalog and spin viewer
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(find release_v015 -name 'part_*.b64' | wc -l)" -eq 15
+          cat release_v015/part_*.b64 | base64 --decode | tar -xJ -C .
+          test -f assets/images/ls2_day_digital/frame_06.webp
+          grep -q 'version: 0.15.0' pubspec.yaml
+          grep -q 'assets/images/ls2_day_digital/' pubspec.yaml
+          grep -q 'class Spin360Viewer' lib/main.dart
+          grep -q 'LS2-1 Day Digital' lib/main.dart
       - name: Verify public PG news service
         shell: bash
         run: |
