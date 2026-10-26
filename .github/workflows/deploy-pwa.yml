@@ -20,6 +20,7 @@ on:
       - 'release_v020/**'
       - 'release_v021/**'
       - 'release_v022/**'
+      - 'release_v023/**'
       - 'release_v019/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
@@ -221,6 +222,16 @@ jobs:
           test -f assets/drones/ls2_digital/model.glb
           grep -q 'class DroneComparePage' lib/drone_views.dart
           grep -q 'pg_model_viewer.html' deploy/publish_install.py
+      - name: Apply v0.23 3D camera alignment and readable compare overlays
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 -d release_v023/overlay.b64 | tar -xJ -C .
+          grep -q 'version: 0.23.0+23' pubspec.yaml
+          grep -q 'orientation="0deg -90deg 0deg"' deploy/pg_model_viewer.html
+          grep -q 'class DroneComparePage' lib/drone_views.dart
+          grep -q "_specsFor" lib/drone_views.dart
+          ! grep -q 'height:151' lib/drone_views.dart
       - name: Verify public PG news service
         shell: bash
         run: |
