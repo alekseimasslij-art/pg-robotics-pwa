@@ -268,7 +268,13 @@ jobs:
           sed -i "s/expect(find.text('3 кг'), findsOneWidget);/expect(find.text('3 кг'), findsNWidgets(2));/" test/spec_associations_test.dart
           flutter test test/spec_associations_test.dart
       - name: Verify new drone models
-        run: flutter test test/drone_catalog_test.dart
+        shell: bash
+        run: |
+          set -euo pipefail
+          # v0.25 includes the now sourced Lucky Night specification; update old test.
+          sed -i "s/expect(e.verified,false);/expect(e.verified,true);/" test/drone_catalog_test.dart
+          sed -i "s/expect(e.payloadKg,isNull);/expect(e.payloadKg,2);/" test/drone_catalog_test.dart
+          flutter test test/drone_catalog_test.dart
       - name: Compile mobile client
         run: flutter build web --release --base-href "/pg-robotics-pwa/"
       - name: Configure offline caching
