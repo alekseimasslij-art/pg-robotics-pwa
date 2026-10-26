@@ -24,6 +24,7 @@ on:
       - 'release_v025/**'
       - 'release_v026/**'
       - 'release_v027/**'
+      - 'test/**'
       - 'release_v019/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
@@ -295,6 +296,8 @@ jobs:
           sed -i "s/expect(e.verified,false);/expect(e.verified,true);/" test/drone_catalog_test.dart
           sed -i "s/expect(e.payloadKg,isNull);/expect(e.payloadKg,2);/" test/drone_catalog_test.dart
           flutter test test/drone_catalog_test.dart
+      - name: Test mobile bomber HUD and exit navigation
+        run: flutter test test/mission_hud_test.dart
       - name: Compile mobile client
         run: flutter build web --release --base-href "/pg-robotics-pwa/"
       - name: Configure offline caching
