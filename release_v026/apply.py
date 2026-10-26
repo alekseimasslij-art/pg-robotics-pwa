@@ -105,14 +105,14 @@ rep3("const header=document.createElement('div');header.className='spec-head';he
      """const header=document.createElement('div');header.className='spec-head';
   const label=document.createElement('span');label.textContent='ТТХ';
   const eye=document.createElement('button');eye.type='button';
-  eye.textContent=specsCollapsed?'⊙':'◉';
+  eye.textContent='👁';
   eye.title=specsCollapsed?'Показати ТТХ':'Сховати ТТХ';
   eye.setAttribute('aria-label',eye.title);
   eye.addEventListener('pointerdown',ev=>ev.stopPropagation());
   eye.addEventListener('click',ev=>{
     ev.preventDefault();ev.stopPropagation();specsCollapsed=!specsCollapsed;
     specEl.classList.toggle('collapsed',specsCollapsed);
-    eye.textContent=specsCollapsed?'⊙':'◉';
+    eye.textContent='👁';
     eye.title=specsCollapsed?'Показати ТТХ':'Сховати ТТХ';
     eye.setAttribute('aria-label',eye.title);
   });
