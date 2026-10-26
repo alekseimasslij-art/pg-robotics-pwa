@@ -23,6 +23,7 @@ on:
       - 'release_v023/**'
       - 'release_v025/**'
       - 'release_v026/**'
+      - 'release_v027/**'
       - 'release_v019/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
@@ -253,6 +254,15 @@ jobs:
           grep -q 'victim:target' lib/mission_game.dart
           grep -q "specsCollapsed" deploy/pg_model_viewer.html
           grep -q "modelId=" lib/drone_viewer_web.dart
+      - name: Apply v0.27 persistent top HUD, differentiated wrecks and compare icon
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 release_v027/apply.py
+          grep -q 'version: 0.27.0+27' pubspec.yaml
+          grep -q '_hudTag' lib/mission_game.dart
+          grep -q '_drawWreck' lib/mission_game.dart
+          grep -q 'eyeSvg' deploy/pg_model_viewer.html
       - name: Verify public PG news service
         shell: bash
         run: |
