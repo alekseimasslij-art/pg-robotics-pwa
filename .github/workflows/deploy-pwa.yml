@@ -17,6 +17,7 @@ on:
       - 'release_v016/**'
       - 'release_v017/**'
       - 'release_v018/**'
+      - 'release_v019/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
 
@@ -166,6 +167,15 @@ jobs:
           grep -q 'class _BomberPainter' lib/mission_game.dart
           grep -q 'Lucky Strike 1.5' lib/mission_game.dart
           grep -q 'automatic drop' lib/mission_game.dart || grep -q 'Automatic drop' lib/mission_game.dart
+      - name: Apply v0.19 evolving landscapes and Bomber mechanics
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 -d release_v019/overlay.b64 | tar -xJ -C .
+          grep -q 'version: 0.19.0' pubspec.yaml
+          grep -q 'void _activateUltimate()' lib/mission_game.dart
+          grep -q 'void _terrain(Canvas canvas' lib/mission_game.dart
+          grep -q 'if (target.canFire' lib/mission_game.dart
       - name: Verify public PG news service
         shell: bash
         run: |
