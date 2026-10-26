@@ -53,7 +53,7 @@ new='''  Widget _hudTag(String v,{Color color=Palette.foreground})=>
                   borderRadius:BorderRadius.circular(10)),
                 child:Text(_flash,textAlign:TextAlign.center,style:
                   const TextStyle(color:Palette.primary,fontSize:11,
-                    fontWeight:FontWeight.w900))))),
+                    fontWeight:FontWeight.w900)))))),
             if(!_playing)Positioned.fill(child:ColoredBox(
               color:const Color(0xDD101517),child:Center(child:Column(
                 mainAxisSize:MainAxisSize.min,children:[
