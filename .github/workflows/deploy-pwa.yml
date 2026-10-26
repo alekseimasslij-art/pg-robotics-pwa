@@ -16,6 +16,7 @@ on:
       - 'release_v015/**'
       - 'release_v016/**'
       - 'release_v017/**'
+      - 'release_v018/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
 
@@ -154,6 +155,17 @@ jobs:
           grep -q 'version: 0.17.0' pubspec.yaml
           grep -q 'class SpecAssociationSheet' lib/spec_associations.dart
           grep -q 'kind: SpecKind.payload' lib/main.dart
+      - name: Install v0.18 one-finger bomber arcade
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f release_v018/mission_game.dart
+          cp release_v018/mission_game.dart lib/mission_game.dart
+          sed -i 's/version: 0.17.0+17/version: 0.18.0+18/' pubspec.yaml
+          grep -q 'version: 0.18.0+18' pubspec.yaml
+          grep -q 'class _BomberPainter' lib/mission_game.dart
+          grep -q 'Lucky Strike 1.5' lib/mission_game.dart
+          grep -q 'automatic drop' lib/mission_game.dart || grep -q 'Automatic drop' lib/mission_game.dart
       - name: Verify public PG news service
         shell: bash
         run: |
