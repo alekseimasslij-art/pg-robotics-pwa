@@ -203,7 +203,7 @@ jobs:
           from pathlib import Path
           s=Path('lib/mission_game.dart').read_text()
           assert 'canvas.rotate(math.pi)' in s
-          assert 'double get _maxSalvo' in s
+          assert 'int get _maxSalvo' in s
           assert '_multiBuff = math.max(0' in s
           assert 'baseHp * (1.0 + (_wave - 1) * .16)' in s
           print('Bomber v0.21 invariants verified')
