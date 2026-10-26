@@ -22,6 +22,7 @@ on:
       - 'release_v022/**'
       - 'release_v023/**'
       - 'release_v025/**'
+      - 'release_v026/**'
       - 'release_v019/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
@@ -243,6 +244,15 @@ jobs:
           grep -q 'pg-select-model' deploy/pg_model_viewer.html
           grep -q '_lives = 3' lib/mission_game.dart
           test -s assets/images/pg_team.webp
+      - name: Apply v0.26 compare fixes and balanced bomber play
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 release_v026/apply.py
+          grep -q 'version: 0.26.0+26' pubspec.yaml
+          grep -q 'victim:target' lib/mission_game.dart
+          grep -q "specsCollapsed" deploy/pg_model_viewer.html
+          grep -q "modelId=" lib/drone_viewer_web.dart
       - name: Verify public PG news service
         shell: bash
         run: |
