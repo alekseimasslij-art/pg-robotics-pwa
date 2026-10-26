@@ -17,6 +17,7 @@ on:
       - 'release_v016/**'
       - 'release_v017/**'
       - 'release_v018/**'
+      - 'release_v020/**'
       - 'release_v019/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
@@ -176,6 +177,16 @@ jobs:
           grep -q 'void _activateUltimate()' lib/mission_game.dart
           grep -q 'void _terrain(Canvas canvas' lib/mission_game.dart
           grep -q 'if (target.canFire' lib/mission_game.dart
+      - name: Apply v0.20 object-based scenery and readable bomber drops
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 -d release_v020/overlay.b64 | tar -xJ -C .
+          grep -q 'version: 0.20.0+20' pubspec.yaml
+          grep -q 'class _WorldObject' lib/mission_game.dart
+          grep -q 'void _avoidScenery' lib/mission_game.dart
+          grep -q 'void _worldObject' lib/mission_game.dart
+          ! grep -q 'const segment = 215' lib/mission_game.dart
       - name: Verify public PG news service
         shell: bash
         run: |
