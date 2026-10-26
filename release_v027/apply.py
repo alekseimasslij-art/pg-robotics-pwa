@@ -273,4 +273,13 @@ p.write_text(html)
 p=Path('pubspec.yaml');text=p.read_text()
 assert 'version: 0.26.0+26' in text
 p.write_text(text.replace('version: 0.26.0+26','version: 0.27.0+27'))
+# The non-web widget-test target must expose the same constructor as WebGL.
+p=Path('lib/drone_viewer_stub.dart')
+stub=p.read_text()
+old="this.group='',this.specs=''});"
+assert stub.count(old)==1
+stub=stub.replace(old,"this.group='',this.specs='',this.onModelSelected});")
+assert "final String id,photo,group,specs;" in stub
+stub=stub.replace("final String id,photo,group,specs;","final String id,photo,group,specs;\n  final ValueChanged<String>? onModelSelected;")
+p.write_text(stub)
 print('v0.27 patch applied')
