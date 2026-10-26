@@ -19,6 +19,7 @@ on:
       - 'release_v018/**'
       - 'release_v020/**'
       - 'release_v021/**'
+      - 'release_v022/**'
       - 'release_v019/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
@@ -208,6 +209,18 @@ jobs:
           assert 'baseHp * (1.0 + (_wave - 1) * .16)' in s
           print('Bomber v0.21 invariants verified')
           PY
+      - name: Apply v0.22 original GLB models and 3D comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat release_v022/group_*.b64 | base64 -d | tar -xJ -C .
+          grep -q 'version: 0.22.0+22' pubspec.yaml
+          test -f assets/drones/ls1_2/model.glb
+          test -f assets/drones/ls_night/model.glb
+          test -f assets/drones/ls2_optical/model.glb
+          test -f assets/drones/ls2_digital/model.glb
+          grep -q 'class DroneComparePage' lib/drone_views.dart
+          grep -q 'pg_model_viewer.html' deploy/publish_install.py
       - name: Verify public PG news service
         shell: bash
         run: |
@@ -232,6 +245,8 @@ jobs:
         run: |
           sed -i "s/expect(find.text('3 кг'), findsOneWidget);/expect(find.text('3 кг'), findsNWidgets(2));/" test/spec_associations_test.dart
           flutter test test/spec_associations_test.dart
+      - name: Verify new drone models
+        run: flutter test test/drone_catalog_test.dart
       - name: Compile mobile client
         run: flutter build web --release --base-href "/pg-robotics-pwa/"
       - name: Configure offline caching
