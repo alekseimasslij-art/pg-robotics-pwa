@@ -21,6 +21,7 @@ on:
       - 'release_v021/**'
       - 'release_v022/**'
       - 'release_v023/**'
+      - 'release_v025/**'
       - 'release_v019/**'
       - '.github/workflows/deploy-pwa.yml'
   workflow_dispatch:
@@ -232,6 +233,16 @@ jobs:
           grep -q 'class DroneComparePage' lib/drone_views.dart
           grep -q "_specsFor" lib/drone_views.dart
           ! grep -q 'height:151' lib/drone_views.dart
+      - name: Apply v0.25 consolidated catalog, comparison and mission fixes
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 -d release_v025/overlay.b64 | tar -xJ -C .
+          grep -q 'version: 0.25.0+25' pubspec.yaml
+          grep -q 'class DroneCatalog' lib/drone_catalog.dart
+          grep -q 'pg-select-model' deploy/pg_model_viewer.html
+          grep -q '_lives = 3' lib/mission_game.dart
+          test -s assets/images/pg_team.webp
       - name: Verify public PG news service
         shell: bash
         run: |
